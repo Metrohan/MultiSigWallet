@@ -181,4 +181,4 @@ For questions, open an issue or contact the maintainer at:
 
 ---
 
-> 🛠️ Built with ❤️ on Stacks by [Metehaan Günen]
+> 🛠️ Built with ❤️ on Stacks by [Metehan Günen]
