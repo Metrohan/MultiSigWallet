@@ -1,0 +1,22 @@
+{
+  "name": "multi-sig-wallet-frontend",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@stacks/connect": "^7.x.x",
+    "@stacks/transactions": "^3.x.x",
+    "@stacks/network": "^2.x.x",
+    "react": "^18.x.x",
+    "next": "^13.x.x",
+    "tailwindcss": "^3.x.x"
+  },
+  "devDependencies": {
+    "postcss": "^8.x.x",
+    "autoprefixer": "^10.x.x"
+  }
+}
+

@@ -1,7 +1,7 @@
 ---
 id: 0
 name: "Simulated deployment, used as a default for `clarinet console`, `clarinet test` and `clarinet check`"
-network: simnet
+network: testnet
 genesis:
   wallets:
     - name: deployer
@@ -50,8 +50,8 @@ plan:
     - id: 0
       transactions:
         - emulated-contract-publish:
-            contract-name: hello-world
+            contract-name: multi-sig-wallet
             emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
-            path: contracts/hello-world.clar
+            path: contracts/multi-sig-wallet.clar
             clarity-version: 3
       epoch: "3.0"
