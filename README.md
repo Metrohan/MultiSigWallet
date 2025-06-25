@@ -5,6 +5,8 @@
 [![Build](https://img.shields.io/badge/build-passing-brightgreen)](#)
 [![Stacks](https://img.shields.io/badge/powered%20by-Stacks-5546FF)](https://www.stacks.co)
 
+## CHECK NOTES!
+
 A secure, decentralized **Multi-Signature Wallet** built on the Stacks blockchain using Clarity smart contracts and a Next.js frontend. This wallet requires multiple predefined signers to approve transactions before they are executed, ensuring greater security and trust for collaborative fund management.
 
 ---
@@ -178,6 +180,12 @@ For questions, open an issue or contact the maintainer at:
 - [Hiro Systems](https://www.hiro.so/)
 - [Clarity Lang](https://docs.stacks.co/docs/clarity-lang)
 - [Clarinet](https://github.com/hirosystems/clarinet)
+
+---
+
+## Notes
+
+I was unable to complete my project due to limited internet access. I will add a ToDo list to the README to better explain my purpose.
 
 ---
 
