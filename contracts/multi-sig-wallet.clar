@@ -14,7 +14,7 @@
 (define-data-var threshold uint u0)
 
 ;; Data maps
-(define-map owners principal bool)
+(define-map owners { owner: principal } bool)
 (define-map proposals
   { id: uint }
   {
@@ -31,10 +31,65 @@
   (is-some (index-of lst p))
 )
 
-;; Helper function to check if caller is an owner
+
 (define-private (is-owner (p principal))
-  (default-to false (map-get? owners p))
+  (match (map-get? owners { owner: p })
+    some-value some-value
+    false
+  )
 )
+
+(define-public (initialize (owner1 principal) (owner2 principal) (owner3 principal) (threshold-amount uint))
+  (begin
+    (asserts! (is-eq (var-get threshold) u0) (err ERR-UNAUTHORIZED)) ;; istersen ERR-ALREADY-INITIALIZED diye yeni hata kodu ekle
+    ;; Threshold kontrolleri
+    (asserts! (> threshold-amount u0) (err ERR-THRESHOLD))
+    (asserts! (<= threshold-amount u3) (err ERR-THRESHOLD))
+    
+    (asserts! (not (is-eq owner1 owner2)) (err ERR-INVALID-OWNER))
+    (asserts! (not (is-eq owner1 owner3)) (err ERR-INVALID-OWNER))
+    (asserts! (not (is-eq owner2 owner3)) (err ERR-INVALID-OWNER))
+
+    (asserts! (not (is-eq owner1 'SP000000000000000000002Q6VF78)) (err ERR-INVALID-OWNER))
+    (asserts! (not (is-eq owner2 'SP000000000000000000002Q6VF78)) (err ERR-INVALID-OWNER))
+    (asserts! (not (is-eq owner3 'SP000000000000000000002Q6VF78)) (err ERR-INVALID-OWNER))
+
+    (map-set owners {owner: owner1} true)
+    (map-set owners {owner: owner2} true)
+    (map-set owners {owner: owner3} true)
+
+    ;; Threshold'u ayarla
+    (var-set threshold threshold-amount)
+
+    (ok true)
+  )
+)
+
+
+;; propose-transaction fonksiyonu
+(define-public (propose-transaction (to principal) (amount uint))
+  (let ((id (+ (var-get proposal-counter) u1)))
+    (asserts! (is-owner tx-sender) (err ERR-UNAUTHORIZED))
+    (asserts! (> amount u0) (err ERR-THRESHOLD))
+    (asserts! (not (is-eq to 'SP000000000000000000002Q6VF78)) (err ERR-INVALID-OWNER))
+    (asserts! (<= amount u1000000000000) (err ERR-TRANSFER))
+
+    (map-set proposals
+      { id: id }
+      {
+        to: to,
+        amount: amount,
+        confirmations: (unwrap-panic (as-max-len? (list tx-sender) u10)),
+        confirmation-count: u1,
+        executed: false
+      }
+    )
+    (var-set proposal-counter id)
+    (ok id)
+  )
+)
+
+
 
 ;; Check if threshold is reached for a proposal
 (define-private (is-threshold-reached (id uint))
@@ -93,71 +148,6 @@
   )
 )
 
-;; Helper function to set a single owner
-(define-private (set-single-owner (owner principal))
-  (map-set owners owner true)
-)
-
-;; Set multiple owners using map for iteration
-(define-private (set-owners (owners-list (list 10 principal)))
-  (begin
-    (map set-single-owner owners-list)
-    (ok true)
-  )
-)
-
-(define-public (initialize (owner1 principal) (owner2 principal) (owner3 principal) (threshold-amount uint))
-  (begin
-    (asserts! (is-eq (var-get threshold) u0) (err ERR-UNAUTHORIZED))
-    (asserts! (> threshold-amount u0) (err ERR-THRESHOLD))
-    (asserts! (<= threshold-amount u3) (err ERR-THRESHOLD))
-    (asserts! (> u3 u0) (err ERR-THRESHOLD))
-    ;; Validate that owners are not the same and not the zero address
-    (asserts! (not (is-eq owner1 owner2)) (err ERR-INVALID-OWNER))
-    (asserts! (not (is-eq owner1 owner3)) (err ERR-INVALID-OWNER))
-    (asserts! (not (is-eq owner2 owner3)) (err ERR-INVALID-OWNER))
-    ;; Additional validation for valid principals (not zero address equivalent)
-    (asserts! (not (is-eq owner1 'SP000000000000000000002Q6VF78)) (err ERR-INVALID-OWNER))
-    (asserts! (not (is-eq owner2 'SP000000000000000000002Q6VF78)) (err ERR-INVALID-OWNER))
-    (asserts! (not (is-eq owner3 'SP000000000000000000002Q6VF78)) (err ERR-INVALID-OWNER))
-
-    (map-set owners owner1 true)
-    (map-set owners owner2 true)
-    (map-set owners owner3 true)
-    
-    (var-set threshold threshold-amount)
-    (ok true)
-  )
-)
-
-;; Propose a new transaction
-(define-public (propose-transaction (to principal) (amount uint))
-  (let
-    (
-      (id (+ (var-get proposal-counter) u1))
-    )
-    (asserts! (is-owner tx-sender) (err ERR-UNAUTHORIZED))
-    (asserts! (> amount u0) (err ERR-THRESHOLD))
-    ;; Validate recipient is not zero address
-    (asserts! (not (is-eq to 'SP000000000000000000002Q6VF78)) (err ERR-INVALID-OWNER))
-    ;; Validate amount is reasonable (prevent overflow issues)
-    (asserts! (<= amount u1000000000000) (err ERR-TRANSFER))
-    
-    (map-set proposals
-      { id: id }
-      {
-        to: to,
-        amount: amount,
-        confirmations: (list tx-sender),
-        confirmation-count: u1,
-        executed: false
-      }
-    )
-    (var-set proposal-counter id)
-    (ok id)
-  )
-)
-
 ;; Confirm a transaction
 (define-public (confirm-transaction (id uint))
   (begin
@@ -186,7 +176,7 @@
 )
 
 ;; Read-only functions
-(define-read-only (get-proposal (id uint))
+(define-read-only (get-proposals (id uint))
   (map-get? proposals { id: id })
 )
 
