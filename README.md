@@ -21,13 +21,6 @@ This project implements a fully functional multi-signature wallet dApp, allowing
 
 ---
 
-## 🚀 Live Demo
-
-> [Demo App Link – IF_DEPLOYED](https://your-live-demo-url.com)  
-> _You can remove this section if not deployed yet._
-
----
-
 ## 🔧 Technologies Used
 
 - 🌐 **Stacks Blockchain**
@@ -43,11 +36,12 @@ This project implements a fully functional multi-signature wallet dApp, allowing
 ## ✨ Key Features
 
 - 🔐 **Multi-sig Authorization** – Transactions require approval from multiple owners.
-- 📤 **Proposal Submission** – Create a transaction proposal with recipient and amount.
+- 🧍 **Fixed Owner Set Initialization** – A single-use `initialize` function defines all owners. *(Critical!)*
+- 📤 **Proposal Submission** – Owners can propose transactions with recipient and amount.
 - ✅ **Confirmations** – Each owner can confirm the proposal.
-- 🚀 **Execute Transaction** – Only executes if enough confirmations are collected.
-- 🕒 **Expiry Time** – Proposals can expire after a set block height.
-- 🧾 **Activity Log** – Track proposals and confirmations on-chain.
+- 🚀 **Execute Transaction** – Transactions execute after enough confirmations.
+- ⏳ **Proposal Expiry** – Each proposal includes an expiration block height.
+- 📜 **On-chain Records** – All proposals, confirmations, and executions are stored on-chain.
 
 ---
 
@@ -151,6 +145,24 @@ clarinet deployment apply --testnet
 
 - Write tests in `tests/` directory using Clarinet’s test suite.
 
+---
+
+## ⚠️ Known Issues
+
+  - initialize can only be called once. If your address is not one of the initial owners, you will not be able to interact with the wallet.
+  - There is no current add-owner or remove-owner functionality in this implementation.
+    
+---
+
+## ✅ ToDo
+
+- Implement optional add-owner / remove-owner logic (post-initialization governance).
+- Show real-time proposal list via stacks.js on frontend.
+- Add filtering (pending / executed / expired).
+- Improve error handling in frontend UI.
+- Add email/notification integration for confirmations.
+- Finalize README with complete deployment instructions.
+  
 ---
 
 ## 🤝 Contributing
