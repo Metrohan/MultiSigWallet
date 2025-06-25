@@ -1,29 +1,13 @@
-import { useState, useEffect } from "react";
-import { showConnect } from "@stacks/connect";
+// pages/index.jsx
+import dynamic from 'next/dynamic';
 
-export default function HomePage() {
-  const [address, setAddress] = useState(null);
+const Wallet = dynamic(() => import('../src/components/MultiSigWallet'), { ssr: false });
 
-  async function connectWallet(){
-    showConnect({ 
-      onFinish: (payload) => setAddress(payload.authResponse.decodedProfile.stxAddress)
-    });
-  }
-
+export default function Home() {
   return (
-    <div className="p-10">
-      <h1>Multi-Signature Wallet</h1>
-      {address ? (
-        <p>Adresiniz: {address}</p>
-      ) : (
-        <button onClick={connectWallet}>
-          Cüzdan Bağla
-        </button>
-      )}
-
-      {/* İşlevleri burada daha fazla oluşturabilir. 
-      Örn: propose, confirm, transfer, vb.*/}
+    <div>
+      <h1>Multi-Sig Wallet</h1>
+      <Wallet />
     </div>
-  )
+  );
 }
-

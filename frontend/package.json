@@ -7,16 +7,16 @@
     "start": "next start"
   },
   "dependencies": {
-    "@stacks/connect": "^7.x.x",
-    "@stacks/transactions": "^3.x.x",
-    "@stacks/network": "^2.x.x",
-    "react": "^18.x.x",
+    "@stacks/auth": "^7.1.0",
+    "@stacks/connect": "^7.10.2",
+    "@stacks/network": "^2.0.2",
+    "@stacks/transactions": "^3.5.1",
     "next": "^13.x.x",
+    "react": "^18.x.x",
     "tailwindcss": "^3.x.x"
   },
   "devDependencies": {
-    "postcss": "^8.x.x",
-    "autoprefixer": "^10.x.x"
+    "autoprefixer": "^10.x.x",
+    "postcss": "^8.x.x"
   }
 }
-
