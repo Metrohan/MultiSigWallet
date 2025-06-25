@@ -1,11 +1,15 @@
 # 🔐 Multi-Signature Wallet
-![Multi-Sig Banner](https://via.placeholder.com/1000x250.png?text=Multi-Signature+Wallet+on+Stacks)
+
+![output](https://github.com/user-attachments/assets/76d125b0-4030-4f65-8d75-3cdb50be8209)
+
 
 [![MIT License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Build](https://img.shields.io/badge/build-passing-brightgreen)](#)
 [![Stacks](https://img.shields.io/badge/powered%20by-Stacks-5546FF)](https://www.stacks.co)
 
+---
 ## CHECK NOTES!
+
 
 A secure, decentralized **Multi-Signature Wallet** built on the Stacks blockchain using Clarity smart contracts and a Next.js frontend. This wallet requires multiple predefined signers to approve transactions before they are executed, ensuring greater security and trust for collaborative fund management.
 
